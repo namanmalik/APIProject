@@ -16,56 +16,98 @@ namespace APIPROJECT.Controllers
     [ApiController]
     public class ProductCategoryController : ControllerBase
     {
-        ShopDataDbContext context = new ShopDataDbContext();
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductCategory>>> Get()
-        {
-            return await context.ProductCategories.ToListAsync();
-        }
+        // ShopDataDbContext context = new ShopDataDbContext();
+        private readonly ShopDataDbContext _context;
 
+        public ProductCategoryController(ShopDataDbContext context)
+        {
+            _context = context;
+        }
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            List<ProductCategory> pc = await _context.ProductCategories.ToListAsync();
+            if (pc != null)
+            {
+                return Ok(pc);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductCategory>> Get(int id)
+        public async Task<IActionResult> Get(int? id)
         {
-            var productcategory = await context.ProductCategories.FindAsync(id);
-
-            if (productcategory == null)
-            {
-                return NotFound();
-            }
-            return productcategory;
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<ProductCategory>> Post([FromBody] ProductCategory productcategory)
-        {
-            context.ProductCategories.Add(productcategory);
-            await context.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = productcategory.ProductCategoryId }, productcategory);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ProductCategory>> Delete(int id)
-        {
-            var productcategory = await context.ProductCategories.FindAsync(id);
-            if (productcategory == null)
-            {
-                return NotFound();
-            }
-            context.ProductCategories.Remove(productcategory);
-            await context.SaveChangesAsync();
-            return NoContent();
-        }
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] ProductCategory newproductcategory)
-        {
-            if (id != newproductcategory.ProductCategoryId)
+            if (id == null)
             {
                 return BadRequest();
             }
-            context.Entry(newproductcategory).State = EntityState.Modified;
-            await context.SaveChangesAsync();
+            var productcategory = await _context.ProductCategories.FindAsync(id);
+
+            if (productcategory == null)
+            {
+                return NotFound();
+            }
+            return Ok(productcategory);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] ProductCategory productcategory)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            else
+                try
+                {
+                    {
+                        _context.ProductCategories.Add(productcategory);
+                        await _context.SaveChangesAsync();
+                        return CreatedAtAction(nameof(Get), new { id = productcategory.ProductCategoryId }, productcategory);
+                    }
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var productcategory = await _context.ProductCategories.FindAsync(id);
+            if (productcategory == null)
+            {
+                return NotFound();
+            }
+            _context.ProductCategories.Remove(productcategory);
+            await _context.SaveChangesAsync();
+            return Ok(productcategory);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(int? id, [FromBody] ProductCategory newproductcategory)
+        {
+            if(id==null)
+            {
+                return BadRequest();
+            }
+            if (id != newproductcategory.ProductCategoryId)
+            {
+                return NotFound();
+            }
+            _context.Entry(newproductcategory).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 

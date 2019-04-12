@@ -9,6 +9,13 @@ namespace Shop.Models
 {
     public class ShopDataDbContext : DbContext
     {
+        public ShopDataDbContext()
+        {
+        }
+
+        public ShopDataDbContext
+            (DbContextOptions<ShopDataDbContext> options) : base(options)
+        { }
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
 
@@ -19,7 +26,7 @@ namespace Shop.Models
         public DbSet<Order> Orders { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=TRD-520; Initial Catalog=APIPROJECTDB1;Integrated Security=true;");
+            //optionsBuilder.UseSqlServer("Data Source=TRD-520; Initial Catalog=ShoppingProject;Integrated Security=true;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,6 +49,15 @@ namespace Shop.Models
            .HasOne(c => c.Customer)
            .WithMany(o => o.Orders)
            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Vendor>(entity =>
+            {
+                entity.Property(e => e.VendorName)
+                .HasColumnName("VendorName")
+                .HasMaxLength(15)
+                .IsUnicode(false);
+            });
+            base.OnModelCreating(modelBuilder);
         }
 
     }

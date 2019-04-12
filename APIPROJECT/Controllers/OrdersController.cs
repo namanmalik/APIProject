@@ -14,28 +14,39 @@ namespace APIPROJECT.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        //private readonly ShopDataDbContext _context;
+        private readonly ShopDataDbContext _context;
 
-        //public OrdersController(ShopDataDbContext context)
-        //{
-        //    _context = context;
-        //}
-        ShopDataDbContext _context = new ShopDataDbContext();
+        public OrdersController(ShopDataDbContext context)
+        {
+            _context = context;
+        }
+        // ShopDataDbContext _context = new ShopDataDbContext();
 
         // GET: api/Orders
         [HttpGet]
-        public IEnumerable<Order> GetOrders()
+        public async Task<IActionResult> GetOrder()
         {
-            return _context.Orders;
+            List<Order> pc = await _context.Orders.ToListAsync();
+            if (pc != null)
+            {
+                return Ok(pc);
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
 
         // GET: api/Orders/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOrder([FromRoute] int id)
+        public async Task<IActionResult> GetOrder([FromRoute] int? id)
         {
-            if (!ModelState.IsValid)
+
+
+            if (id == null)
             {
-                return BadRequest(ModelState);
+                return BadRequest();
             }
 
             var order = await _context.Orders.FindAsync(id);
@@ -59,7 +70,7 @@ namespace APIPROJECT.Controllers
 
             if (id != order.OrderId)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             _context.Entry(order).State = EntityState.Modified;
@@ -91,16 +102,25 @@ namespace APIPROJECT.Controllers
             {
                 return BadRequest(ModelState);
             }
+            else
+            {
+                try
+                {
 
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetOrder", new { id = order.OrderId }, order);
+                    _context.Orders.Add(order);
+                    await _context.SaveChangesAsync();
+                    return CreatedAtAction("GetOrder", new { id = order.OrderId }, order);
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
+            }
         }
 
         // DELETE: api/Orders/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder([FromRoute] int id)
+        public async Task<IActionResult> DeleteOrder([FromRoute] int? id)
         {
             if (!ModelState.IsValid)
             {
@@ -119,7 +139,7 @@ namespace APIPROJECT.Controllers
             return Ok(order);
         }
 
-        private bool OrderExists(int id)
+        private bool OrderExists(int ?id)
         {
             return _context.Orders.Any(e => e.OrderId == id);
         }

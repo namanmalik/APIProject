@@ -14,13 +14,13 @@ namespace APIPROJECT.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        //private readonly ShopDataDbContext _context;
+        private readonly ShopDataDbContext _context;
 
-        //public CustomersController(ShopDataDbContext context)
-        //{
-        //    _context = context;
-        //}
-        ShopDataDbContext _context = new ShopDataDbContext();
+        public CustomersController(ShopDataDbContext context)
+        {
+            _context = context;
+        }
+
         // GET: api/Customers
         [HttpGet]
         public IEnumerable<Customer> GetCustomers()

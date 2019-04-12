@@ -14,13 +14,13 @@ namespace APIPROJECT.Controllers
     [ApiController]
     public class FeedbacksController : ControllerBase
     {
-        //private readonly ShopDataDbContext _context;
+        private readonly ShopDataDbContext _context;
 
-        //public FeedbacksController(ShopDataDbContext context)
-        //{
-        //    _context = context;
-        //}
-        ShopDataDbContext _context = new ShopDataDbContext();
+        public FeedbacksController(ShopDataDbContext context)
+        {
+            _context = context;
+        }
+
         // GET: api/Feedbacks
         [HttpGet]
         public IEnumerable<Feedback> GetFeedbacks()

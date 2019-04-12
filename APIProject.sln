@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIPROJECT", "APIPROJECT\APIPROJECT.csproj", "{503BEF4A-D2A4-46CC-BA21-710116313874}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreShoppingProject", "CoreShoppinProject\CoreShoppingProject.csproj", "{AE9C761B-3A09-45D8-94A8-70B9F8285EB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreShoppingProject", "CoreShoppinProject\CoreShoppingProject.csproj", "{AE9C761B-3A09-45D8-94A8-70B9F8285EB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIProject.Tests", "APIProject.Tests\APIProject.Tests.csproj", "{7E8BEB80-09BC-44BF-8534-BEF023CB952D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{AE9C761B-3A09-45D8-94A8-70B9F8285EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE9C761B-3A09-45D8-94A8-70B9F8285EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE9C761B-3A09-45D8-94A8-70B9F8285EB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E8BEB80-09BC-44BF-8534-BEF023CB952D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E8BEB80-09BC-44BF-8534-BEF023CB952D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E8BEB80-09BC-44BF-8534-BEF023CB952D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E8BEB80-09BC-44BF-8534-BEF023CB952D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
