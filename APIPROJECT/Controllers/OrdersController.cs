@@ -61,11 +61,11 @@ namespace APIPROJECT.Controllers
 
         // PUT: api/Orders/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder([FromRoute] int id, [FromBody] Order order)
+        public async Task<IActionResult> PutOrder([FromRoute] int ?id, [FromBody] Order order)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
             {
-                return BadRequest(ModelState);
+                return BadRequest();
             }
 
             if (id != order.OrderId)
@@ -122,9 +122,9 @@ namespace APIPROJECT.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder([FromRoute] int? id)
         {
-            if (!ModelState.IsValid)
+            if (id==null)
             {
-                return BadRequest(ModelState);
+                return BadRequest();
             }
 
             var order = await _context.Orders.FindAsync(id);
