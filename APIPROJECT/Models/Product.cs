@@ -23,5 +23,8 @@ namespace Shop.Models
 
         public int ProductCategoryId { get; set; }
         public virtual ProductCategory Category { get; set; }
+
+        public int BrandId{ get; set; }
+        public virtual Brand Brand { get; set; }
     }
 }

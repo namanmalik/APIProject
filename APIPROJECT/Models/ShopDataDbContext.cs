@@ -24,6 +24,7 @@ namespace Shop.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Feedback> Feedbacks{ get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Brand> Brands { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer("Data Source=TRD-520; Initial Catalog=ShoppingProject;Integrated Security=true;");
